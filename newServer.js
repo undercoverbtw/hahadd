@@ -191,7 +191,6 @@ class Bot {
       "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36",
     ];
 
-    import fetch from 'node-fetch';
 
 const SCRAPEOPS_API_KEY = 'e9954f85-4917-46af-b8b5-ff3cf9ef7b42';
 const url = `http://headers.scrapeops.io/v1/browser-headers?api_key=${SCRAPEOPS_API_KEY}`
