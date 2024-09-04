@@ -197,6 +197,10 @@ class Bot {
         Origin: "https://gota.io/web",
         "Sec-WebSocket-Extensions":
           "permessage-deflate; client_max_window_bits",
+       "Upgrade": "websocket",
+       "Connection": "Upgrade"
+       "Sec-WebSocket-Key": "dGhlIHNhbXBsZSBub25jZQ=="
+       "Sec-WebSocket-Version": "13"
       },
     };
     this.ws = new WebSocket(this.server, options);
