@@ -195,12 +195,8 @@ class Bot {
         "User-Agent":
           userAgentList[Math.floor(Math.random() * userAgentList.length)],
         Origin: "https://gota.io/web",
-        "Sec-WebSocket-Extensions":
-          "permessage-deflate; client_max_window_bits",
-       "Upgrade": "websocket",
-       "Connection": "Upgrade",
-       "Sec-WebSocket-Key": "dGhlIHNhbXBsZSBub25jZQ==",
-       "Sec-WebSocket-Version": "13",
+        'Sec-WebSocket-Extensions':
+          'permessage-deflate; client_max_window_bits',
       },
     };
     this.ws = new WebSocket(this.server, options);
