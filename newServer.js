@@ -212,13 +212,13 @@ function getRandomHeader(headerList) {
       
     const options = {
       agent: this.proxyAgent,
-      headers: headers,
-      //  "User-Agent":
-     //     userAgentList[Math.floor(Math.random() * userAgentList.length)],
-      //  Origin: "https://gota.io/web",
-      //  "Sec-WebSocket-Extensions":
-     //     "permessage-deflate; client_max_window_bits",
-      // },
+      headers: { 
+        "User-Agent":
+          userAgentList[Math.floor(Math.random() * userAgentList.length)],
+        Origin: "https://gota.io/web",
+        "Sec-WebSocket-Extensions":
+         "permessage-deflate; client_max_window_bits",
+      },
     };
     this.ws = new WebSocket(this.server, options);
     this.ws.onopen = this.open.bind(this);
