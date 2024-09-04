@@ -205,9 +205,9 @@ function getRandomHeader(headerList) {
   const randomIndex = Math.floor(Math.random() * headerList.length);
   return headerList[randomIndex];
 }
-    const headerList = await getHeadersList();
-    for (const url of urlList) {
-      const headers = getRandomHeader(headerList);
+    const headerList = getHeadersList();
+    
+    const headers = getRandomHeader(headerList);
       
     const options = {
       agent: this.proxyAgent,
