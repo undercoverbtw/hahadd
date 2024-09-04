@@ -2,6 +2,7 @@ const WebSocket = require("ws");
 const { HttpsProxyAgent } = require("https-proxy-agent");
 const { loadProxies } = require("./Helpers/functions");
 const https = require("https");
+const http = require('http');
 const fs = require("fs");
 
 
