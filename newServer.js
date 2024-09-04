@@ -322,6 +322,7 @@ function getRandomHeader(headerList) {
                 this.sendPacket(Packets.createPingPacket());
             }, 30000);
   }
+        }
   sendChat() {
     this.sendPacket(
       Buffer.from([
