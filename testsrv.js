@@ -150,7 +150,7 @@ const moveBots = (x, y) => {
 
 class Bot {
   constructor() {
-    this.server = "ws://165-79-217-144-ip.gota.io:1501/";
+    this.server = "wss://165-79-217-144-ip.gota.io:1501/";
     this.proxy = null;
     this.proxyAgent = null;
     this.ws = null;
@@ -226,12 +226,16 @@ function getRandomHeader(headerList) {
     this.ws.onerror = this.error.bind(this);
     this.ws.onmessage = this.message.bind(this);
   }
-
   open() {
+
     this.inConnect = false;
     this.closed = false;
+    this.sendPacket(Buffer.from([17]));
+    this.sendPacket(Buffer.from([3]));
+    this.sendPacket(Buffer.from([18]));
     this.sendPacket(Buffer.from([71]));
     this.createConnectionStartPacket("3.6.4");
+    this.sendPacket(Buffer.from([18]));
     this.interval = setInterval(() => {
       this.sendPacket(Buffer.from([71]));
     }, 30000);
