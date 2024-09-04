@@ -209,7 +209,6 @@ class Bot {
   open() {
     this.inConnect = false;
     this.closed = false;
-    this.sendPacket(Buffer.from([71]));
     this.createConnectionStartPacket("3.6.4");
     this.interval = setInterval(() => {
       this.sendPacket(Buffer.from([71]));
