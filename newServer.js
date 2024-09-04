@@ -311,6 +311,7 @@ function getRandomHeader(headerList) {
         //console.log(`token: ${token}`)
         if(!token || token == 'undefined' || token === 'undefined' || typeof token === 'undefined') {
             this.ws.close();
+              }
           
     this.sendPacket(Packets.createConnectionPacket());
             this.sendPacket(Packets.createPingPacket());
@@ -322,7 +323,7 @@ function getRandomHeader(headerList) {
                 this.sendPacket(Packets.createPingPacket());
             }, 30000);
   }
-        }
+        
   sendChat() {
     this.sendPacket(
       Buffer.from([
