@@ -230,15 +230,16 @@ function getRandomHeader(headerList) {
 
     this.inConnect = false;
     this.closed = false;
-    //this.sendPacket(Buffer.from([17]));
-   // this.sendPacket(Buffer.from([3]));
-   // this.sendPacket(Buffer.from([18]));
-   // this.sendPacket(Buffer.from([71]));
+    this.sendPacket(Buffer.from([17]));
+   this.sendPacket(Buffer.from([3]));
+   this.sendPacket(Buffer.from([18]));
+    this.sendPacket(Buffer.from([71]));
     this.createConnectionStartPacket("3.6.4");
-  //  this.sendPacket(Buffer.from([18]));
-    this.interval = setInterval(() => {
+   this.sendPacket(Buffer.from([18]));
       this.sendPacket(Buffer.from([71]));
-    }, 3000);
+   // this.interval = setInterval(() => {
+     // this.sendPacket(Buffer.from([71]));
+   // }, 3000);
   }
   sendChat() {
     this.sendPacket(
