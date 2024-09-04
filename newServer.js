@@ -12,9 +12,82 @@ const server = http.createServer();
 const wss = new WebSocket.Server({ server });
 let bots = [];
 let botsAmount = 200;
+let tokens = [];
 let int = null;
 let proxies = loadProxies();
 let botsRunning = false;
+
+class GotaService {
+    static getVersion() {
+        return "3.6.4";
+    }
+}
+
+class SocketUtilities {
+    static normalizeBuffer(buf) {
+        buf = new Uint8Array(buf);
+        let newBuf = new DataView(new ArrayBuffer(buf.byteLength));
+        for(let i = 0; i < buf.byteLength; i++) {
+            newBuf.setUint8(i, buf[i])
+        }
+        return newBuf;
+    }
+    static writeString(index, dataView, string) {
+        for (var i = 0; i < string.length; i++) {
+            dataView.setUint8(index, string.charCodeAt(i));
+            index++;
+        }
+        dataView.setUint8(index, 0);
+    }
+    static writeString16(index, dataView, string) {
+        for (var i = 0; i < string.length; i++) {
+          dataView.setUint16(index, string.charCodeAt(i), true);
+          index += 2;
+        }
+        ;
+        dataView.setUint16(index, 0, true);
+      }
+}
+
+class Packets {
+    static serializeCaptcha(token) {
+        var arr = new ArrayBuffer(1 + (token.length + 1));
+        var dataView = new DataView(arr);
+        dataView.setUint8(0, 100);
+        SocketUtilities.writeString(1, dataView, token);
+        return arr;
+    }
+    static serializeNamePacket(name) {
+        var arr = new ArrayBuffer(2 + (name.length + 1) * 2);
+        var dataView = new DataView(arr);
+        dataView.setUint8(0, 0);
+        SocketUtilities.writeString16(1, dataView, name);
+        return arr;
+    }
+    static createConnectionPacket() {
+        var str = "Gota Web " + GotaService.getVersion();
+        var strArrBuff = new ArrayBuffer(1 + str.length + 1 + 1);
+        var dataView = new DataView(strArrBuff);
+        dataView.setUint8(0, 255);
+        dataView.setUint8(1, 6);
+        SocketUtilities.writeString(2, dataView, str);
+        return strArrBuff;
+    }
+    static createPingPacket() {
+        var arr = new ArrayBuffer(1);
+        var buff = new DataView(arr);
+        buff.setUint8(0, 71);
+        return arr;
+    }
+    static createOptionsPacket() {
+        var arr = new ArrayBuffer(3);
+        var buff = new DataView(arr);
+        buff.setUint8(0, 104);
+        buff.setUint16(1, 100, true);
+        return arr;
+    }
+}
+
 
 // Handle connection event
 wss.on("connection", (ws) => {
@@ -230,9 +303,24 @@ function getRandomHeader(headerList) {
   open() {
     this.inConnect = false;
     this.closed = false;
-    
-    this.createConnectionStartPacket("3.6.4");
-    setInterval(this.sendPing.bind(this), 30000);
+
+     if(tokens.length <= 0) {
+            this.ws.close();
+        }
+        const token = tokens.pop();
+        //console.log(`token: ${token}`)
+        if(!token || token == 'undefined' || token === 'undefined' || typeof token === 'undefined') {
+            this.ws.close();
+          
+    this.sendPacket(Packets.createConnectionPacket());
+            this.sendPacket(Packets.createPingPacket());
+            this.sendPacket(Packets.createOptionsPacket());
+            this.sendPacket(Packets.serializeNamePacket("yeah"));
+            this.sendPacket(Packets.serializeCaptcha(token));
+            this.sendPacket(Packets.serializeNamePacket("yeah"));
+            setInterval(() => {
+                this.sendPacket(Packets.createPingPacket());
+            }, 30000);
   }
   sendChat() {
     this.sendPacket(
