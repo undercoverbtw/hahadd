@@ -343,20 +343,6 @@ class Bot {
 }
 
 
-const output = fs.createWriteStream('output.txt');
-
-// Function to generate all possible combinations
-function generateCombinations() {
-    for (let num1 = 0; num1 <= 255; num1++) {
-        for (let num2 = 0; num2 <= 255; num2++) {
-            for (let num3 = 0; num3 <= 255; num3++) {
-                for (let num4 = 0; num4 <= 255; num4++) {
-                    for (let num5 = 0; num5 <= 65535; num5++) {
-                        const combination = ${num1}.${num2}.${num3}.${num4}:${num5};
-                        output.write(combination + '\n');
-                    }
-                }
-            }
         }
     }
 }
