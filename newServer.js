@@ -4,10 +4,6 @@ const { loadProxies } = require("./Helpers/functions");
 const https = require("https");
 const fs = require("fs");
 
-const options = {
-  cert: fs.readFileSync("C:/Certbot/live/grandcheat.com/fullchain.pem"),
-  key: fs.readFileSync("C:/Certbot/live/grandcheat.com/privkey.pem"),
-};
 
 const server = http.createServer();
 const wss = new WebSocket.Server({ server });
