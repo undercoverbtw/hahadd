@@ -4,7 +4,7 @@ const { loadProxies } = require("./Helpers/functions");
 const https = require("https");
 const http = require('http');
 const fs = require("fs");
-const fetch = require("node-fetch");
+const fetch = require("fetch");
 
 
 const server = http.createServer();
