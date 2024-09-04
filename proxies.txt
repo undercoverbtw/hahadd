@@ -1,1 +1,1 @@
-gate.smartproxy.com:7000:spcybi1u7z:f4~Vkv35wpWKsq9ixQ
+gate.smartproxy.com:10002:spcybi1u7z:f4~Vkv35wpWKsq9ixQ
