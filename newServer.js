@@ -4,6 +4,7 @@ const { loadProxies } = require("./Helpers/functions");
 const https = require("https");
 const http = require('http');
 const fs = require("fs");
+const fetch = require("node-fetch");
 
 
 const server = http.createServer();
@@ -190,15 +191,34 @@ class Bot {
       "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36",
     ];
 
+    import fetch from 'node-fetch';
+
+const SCRAPEOPS_API_KEY = 'e9954f85-4917-46af-b8b5-ff3cf9ef7b42';
+const url = `http://headers.scrapeops.io/v1/browser-headers?api_key=${SCRAPEOPS_API_KEY}`
+
+async function getHeadersList() {
+  const response = await fetch(url);
+  const data = await response.json()
+  return data.result || [];
+}
+
+function getRandomHeader(headerList) {
+  const randomIndex = Math.floor(Math.random() * headerList.length);
+  return headerList[randomIndex];
+}
+    const headerList = await getHeadersList();
+    for (const url of urlList) {
+      const headers = getRandomHeader(headerList);
+      
     const options = {
       agent: this.proxyAgent,
-      headers: {
-        "User-Agent":
-          userAgentList[Math.floor(Math.random() * userAgentList.length)],
-        Origin: "https://gota.io/web",
-        "Sec-WebSocket-Extensions":
-          "permessage-deflate; client_max_window_bits",
-      },
+      headers: headers,
+      //  "User-Agent":
+     //     userAgentList[Math.floor(Math.random() * userAgentList.length)],
+      //  Origin: "https://gota.io/web",
+      //  "Sec-WebSocket-Extensions":
+     //     "permessage-deflate; client_max_window_bits",
+      // },
     };
     this.ws = new WebSocket(this.server, options);
     this.ws.onopen = this.open.bind(this);
