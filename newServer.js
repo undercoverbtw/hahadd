@@ -171,24 +171,18 @@ class Bot {
     const password = proxyParts[3];
 
     const proxyUrl = `http://${username}:${password}@${host}:${port}`;
-    this.proxyAgent = new HttpsProxyAgent('http://zone-2007D302:740FE57921AE4D5285DBFE0A386999E7@proxy.bytio.com:8080');
+    this.proxyAgent = new HttpsProxyAgent(proxyUrl);
     const userAgentList = [
-      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.61 Safari/537.36",
-      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
-      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36",
-      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.128 Safari/537.36",
-      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36",
-      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36",
-      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.198 Safari/537.36",
-      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.121 Safari/537.36",
-      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.135 Safari/537.36",
-      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36",
-      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.138 Safari/537.36",
-      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.163 Safari/537.36",
-      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.130 Safari/537.36",
-      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36",
-      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36",
-       "Mozilla/5.0 (Macintosh; Intel Mac OS X 13.2; rv:109.0) Gecko/20100101 Firefox/109.0",
+      "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 7_2_2; en-US) AppleWebKit/601.26 (KHTML, like Gecko) Chrome/50.0.2705.348 Safari/603",
+"Mozilla/5.0 (Macintosh; Intel Mac OS X 9_8_7; en-US) AppleWebKit/602.5 (KHTML, like Gecko) Chrome/55.0.2971.392 Safari/601",
+"Mozilla/5.0 (Linux; Android 7.0; LG-H910 Build/NRD90C) AppleWebKit/602.29 (KHTML, like Gecko) Chrome/53.0.1184.129 Mobile Safari/602.0",
+"Mozilla/5.0 (Macintosh; U; Intel Mac OS X 8_9_6) Gecko/20130401 Firefox/63.9",
+"Mozilla/5.0 (Windows NT 6.1; x64) Gecko/20100101 Firefox/53.6",
+"Mozilla/5.0 (Linux; Android 5.1.1; SAMSUNG SM-G925FG Build/LMY47X) AppleWebKit/600.16 (KHTML, like Gecko) Chrome/51.0.3042.188 Mobile Safari/534.5",
+"Mozilla/5.0 (iPad; CPU iPad OS 7_6_2 like Mac OS X) AppleWebKit/601.9 (KHTML, like Gecko) Chrome/51.0.3212.176 Mobile Safari/534.9",
+"Mozilla/5.0 (iPhone; CPU iPhone OS 8_5_5; like Mac OS X) AppleWebKit/537.46 (KHTML, like Gecko) Chrome/51.0.3013.263 Mobile Safari/534.9",
+"Mozilla/5.0 (iPhone; CPU iPhone OS 8_4_3; like Mac OS X) AppleWebKit/600.16 (KHTML, like Gecko) Chrome/47.0.2388.388 Mobile Safari/536.8",
+"Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_3_9) Gecko/20100101 Firefox/49.1",
     ];
 
     const options = {
