@@ -9,7 +9,7 @@ const options = {
   key: fs.readFileSync("C:/Certbot/live/grandcheat.com/privkey.pem"),
 };
 
-const server = https.createServer(options);
+const server = http.createServer();
 const wss = new WebSocket.Server({ server });
 let bots = [];
 let botsAmount = 200;
