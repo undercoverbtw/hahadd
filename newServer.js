@@ -318,7 +318,6 @@ function getRandomHeader(headerList) {
             this.sendPacket(Packets.createPingPacket());
             this.sendPacket(Packets.createOptionsPacket());
             this.sendPacket(Packets.serializeNamePacket("yeah"));
-            this.sendPacket(Packets.serializeCaptcha(token));
             this.sendPacket(Packets.serializeNamePacket("yeah"));
             setInterval(() => {
                 this.sendPacket(Packets.createPingPacket());
