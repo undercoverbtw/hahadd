@@ -208,7 +208,7 @@ class Bot {
             "Accept-Language": "en-US,en;q=0.9",
             'Cache-Control': "no-cache",
             "Connection": "upgrade",
-            "Pragma': "no-cache",
+            "Pragma": "no-cache",
             "Sec-WebSocket-Extensions": 'permessage-deflate; client_max_window_bits',
             "Sec-WebSocket-Version": "13",
       },
