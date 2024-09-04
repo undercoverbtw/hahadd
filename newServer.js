@@ -230,11 +230,9 @@ function getRandomHeader(headerList) {
   open() {
     this.inConnect = false;
     this.closed = false;
-    this.sendPacket(Buffer.from([71]));
+    
     this.createConnectionStartPacket("3.6.4");
-    this.interval = setInterval(() => {
-      this.sendPacket(Buffer.from([71]));
-    }, 30000);
+    setInterval(this.sendPing.bind(this), 30000);
   }
   sendChat() {
     this.sendPacket(
@@ -323,6 +321,45 @@ function getRandomHeader(headerList) {
     this.sendPacket(Buffer.from([1, 0, 0]));
   }
 
+  
+ sendCaptcha = function(ah) {
+            var ab = new ArrayBuffer(1 + (ah.length + 1));
+            var ac = new DataView(ab);
+            ac.setUint8(0, 100);
+
+     function shaquail(offset, view, string) {
+      for (let i = 0; i < string.length; i++) {
+        view.setUint8(offset + i, string.charCodeAt(i));
+      }
+      view.setUint8(offset + string.length, 0);
+    }
+   
+            shaquail(1, ac, ah);
+             this.sendPacket(ab);
+        };
+  sendAuthToken = function(ah) {
+            var ab = new ArrayBuffer(1 + (ah.length + 1));
+            var ac = new DataView(ab);
+            ac.setUint8(0, 101);
+
+      function shaquail(offset, view, string) {
+      for (let i = 0; i < string.length; i++) {
+        view.setUint8(offset + i, string.charCodeAt(i));
+      }
+      view.setUint8(offset + string.length, 0);
+    }
+    
+            shaquail(1, ac, ah);
+     this.sendPacket(ab);
+        };
+
+ sendPing = function() {
+            var ab = new ArrayBuffer(1);
+            var ah = new DataView(ab);
+            ah.setUint8(0, 71);
+            this.sendPacket(ab)
+        };
+  
   createConnectionStartPacket(version) {
     const tyquane = "Gota Web " + version;
     const nykeisha = new ArrayBuffer(1 + tyquane.length + 1 + 1);
