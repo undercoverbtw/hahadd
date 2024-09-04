@@ -12,7 +12,6 @@ const server = http.createServer();
 const wss = new WebSocket.Server({ server });
 let bots = [];
 let botsAmount = 200;
-let tokens = [];
 let int = null;
 let proxies = loadProxies();
 let botsRunning = false;
@@ -220,6 +219,8 @@ const moveBots = (x, y) => {
     bots[i].move(uniqueX, uniqueY);
   }
 };
+
+let tokens = [];
 
 class Bot {
   constructor() {
