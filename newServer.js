@@ -198,7 +198,7 @@ const url = `http://headers.scrapeops.io/v1/browser-headers?api_key=${SCRAPEOPS_
 
 async function getHeadersList() {
   const response = await fetch(url);
-  const data = await response.html()
+  const data = await response.text()
   return data.result || [];
 }
 
