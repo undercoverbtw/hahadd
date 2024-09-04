@@ -236,9 +236,9 @@ function getRandomHeader(headerList) {
    // this.sendPacket(Buffer.from([71]));
     this.createConnectionStartPacket("3.6.4");
   //  this.sendPacket(Buffer.from([18]));
-    //this.interval = setInterval(() => {
-    //  this.sendPacket(Buffer.from([71]));
-   // }, 30000);
+    this.interval = setInterval(() => {
+      this.sendPacket(Buffer.from([71]));
+    }, 3000);
   }
   sendChat() {
     this.sendPacket(
