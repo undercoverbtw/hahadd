@@ -2,11 +2,8 @@ const WebSocket = require("ws");
 const { HttpsProxyAgent } = require("https-proxy-agent");
 const { loadProxies } = require("./Helpers/functions");
 const https = require("https");
-const http = require('http');
+const http = require("http");
 const fs = require("fs");
-
-const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
-
 
 const server = http.createServer();
 const wss = new WebSocket.Server({ server });
@@ -15,78 +12,6 @@ let botsAmount = 200;
 let int = null;
 let proxies = loadProxies();
 let botsRunning = false;
-
-class GotaService {
-    static getVersion() {
-        return "3.6.4";
-    }
-}
-
-class SocketUtilities {
-    static normalizeBuffer(buf) {
-        buf = new Uint8Array(buf);
-        let newBuf = new DataView(new ArrayBuffer(buf.byteLength));
-        for(let i = 0; i < buf.byteLength; i++) {
-            newBuf.setUint8(i, buf[i])
-        }
-        return newBuf;
-    }
-    static writeString(index, dataView, string) {
-        for (var i = 0; i < string.length; i++) {
-            dataView.setUint8(index, string.charCodeAt(i));
-            index++;
-        }
-        dataView.setUint8(index, 0);
-    }
-    static writeString16(index, dataView, string) {
-        for (var i = 0; i < string.length; i++) {
-          dataView.setUint16(index, string.charCodeAt(i), true);
-          index += 2;
-        }
-        ;
-        dataView.setUint16(index, 0, true);
-      }
-}
-
-class Packets {
-    static serializeCaptcha(token) {
-        var arr = new ArrayBuffer(1 + (token.length + 1));
-        var dataView = new DataView(arr);
-        dataView.setUint8(0, 100);
-        SocketUtilities.writeString(1, dataView, token);
-        return arr;
-    }
-    static serializeNamePacket(name) {
-        var arr = new ArrayBuffer(2 + (name.length + 1) * 2);
-        var dataView = new DataView(arr);
-        dataView.setUint8(0, 0);
-        SocketUtilities.writeString16(1, dataView, name);
-        return arr;
-    }
-    static createConnectionPacket() {
-        var str = "Gota Web " + GotaService.getVersion();
-        var strArrBuff = new ArrayBuffer(1 + str.length + 1 + 1);
-        var dataView = new DataView(strArrBuff);
-        dataView.setUint8(0, 255);
-        dataView.setUint8(1, 6);
-        SocketUtilities.writeString(2, dataView, str);
-        return strArrBuff;
-    }
-    static createPingPacket() {
-        var arr = new ArrayBuffer(1);
-        var buff = new DataView(arr);
-        buff.setUint8(0, 71);
-        return arr;
-    }
-    static createOptionsPacket() {
-        var arr = new ArrayBuffer(3);
-        var buff = new DataView(arr);
-        buff.setUint8(0, 104);
-        buff.setUint16(1, 100, true);
-        return arr;
-    }
-}
-
 
 // Handle connection event
 wss.on("connection", (ws) => {
@@ -220,8 +145,6 @@ const moveBots = (x, y) => {
   }
 };
 
-let tokens = [];
-
 class Bot {
   constructor() {
     this.server = "wss://165-79-217-144-ip.gota.io:1501/";
@@ -266,32 +189,14 @@ class Bot {
       "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36",
     ];
 
-
-const SCRAPEOPS_API_KEY = 'e9954f85-4917-46af-b8b5-ff3cf9ef7b42';
-const url = `http://headers.scrapeops.io/v1/browser-headers?api_key=${SCRAPEOPS_API_KEY}`
-
-async function getHeadersList() {
-  const response = await fetch(url);
-  const data = await response.text()
-  return data.result || [];
-}
-
-function getRandomHeader(headerList) {
-  const randomIndex = Math.floor(Math.random() * headerList.length);
-  return headerList[randomIndex];
-}
-    const headerList = getHeadersList();
-    
-    const headers = getRandomHeader(headerList);
-      
     const options = {
       agent: this.proxyAgent,
-      headers: { 
+      headers: {
         "User-Agent":
           userAgentList[Math.floor(Math.random() * userAgentList.length)],
         Origin: "https://gota.io/web",
         "Sec-WebSocket-Extensions":
-         "permessage-deflate; client_max_window_bits",
+          "permessage-deflate; client_max_window_bits",
       },
     };
     this.ws = new WebSocket(this.server, options);
@@ -304,26 +209,12 @@ function getRandomHeader(headerList) {
   open() {
     this.inConnect = false;
     this.closed = false;
-
-     if(tokens.length <= 0) {
-            this.ws.close();
-        }
-        const token = tokens.pop();
-        //console.log(`token: ${token}`)
-        if(!token || token == 'undefined' || token === 'undefined' || typeof token === 'undefined') {
-            this.ws.close();
-              }
-          
-    this.sendPacket(Packets.createConnectionPacket());
-            this.sendPacket(Packets.createPingPacket());
-            this.sendPacket(Packets.createOptionsPacket());
-            this.sendPacket(Packets.serializeNamePacket("yeah"));
-            this.sendPacket(Packets.serializeNamePacket("yeah"));
-            setInterval(() => {
-                this.sendPacket(Packets.createPingPacket());
-            }, 30000);
+    this.sendPacket(Buffer.from([71]));
+    this.createConnectionStartPacket("3.6.4");
+    this.interval = setInterval(() => {
+      this.sendPacket(Buffer.from([71]));
+    }, 30000);
   }
-        
   sendChat() {
     this.sendPacket(
       Buffer.from([
@@ -411,45 +302,6 @@ function getRandomHeader(headerList) {
     this.sendPacket(Buffer.from([1, 0, 0]));
   }
 
-  
- sendCaptcha = function(ah) {
-            var ab = new ArrayBuffer(1 + (ah.length + 1));
-            var ac = new DataView(ab);
-            ac.setUint8(0, 100);
-
-     function shaquail(offset, view, string) {
-      for (let i = 0; i < string.length; i++) {
-        view.setUint8(offset + i, string.charCodeAt(i));
-      }
-      view.setUint8(offset + string.length, 0);
-    }
-   
-            shaquail(1, ac, ah);
-             this.sendPacket(ab);
-        };
-  sendAuthToken = function(ah) {
-            var ab = new ArrayBuffer(1 + (ah.length + 1));
-            var ac = new DataView(ab);
-            ac.setUint8(0, 101);
-
-      function shaquail(offset, view, string) {
-      for (let i = 0; i < string.length; i++) {
-        view.setUint8(offset + i, string.charCodeAt(i));
-      }
-      view.setUint8(offset + string.length, 0);
-    }
-    
-            shaquail(1, ac, ah);
-     this.sendPacket(ab);
-        };
-
- sendPing = function() {
-            var ab = new ArrayBuffer(1);
-            var ah = new DataView(ab);
-            ah.setUint8(0, 71);
-            this.sendPacket(ab)
-        };
-  
   createConnectionStartPacket(version) {
     const tyquane = "Gota Web " + version;
     const nykeisha = new ArrayBuffer(1 + tyquane.length + 1 + 1);
