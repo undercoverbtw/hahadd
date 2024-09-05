@@ -190,14 +190,14 @@ const stopBotsConnecting = () => {
       "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.71 Safari/537.36",
         ]
 
-        this.in_connect = true;
+      this.in_connect = true;
         
 
       const options = {
           agent: this.proxyAgent,
           headers: {
             "User-Agent":
-              user_agents_list[Math.floor(Math.random() * userAgentList.length)],
+              user_agents_list[Math.floor(Math.random() * user_agents_list.length)],
             Origin: "https://gota.io/web",
             'Sec-WebSocket-Extensions':
               'permessage-deflate; client_max_window_bits',
