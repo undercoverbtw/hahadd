@@ -175,7 +175,7 @@ const stopBotsConnecting = () => {
 
      class Bot {
     constructor() {
-      this.server = "wss://213-245-254-51-ip.gota.io:1501/";
+   this.server = "wss://212-245-254-51-ip.gota.io:1501/"
       this.proxy = null;
       this.proxy_agent = null;
       this.ws = null;
@@ -241,7 +241,7 @@ const stopBotsConnecting = () => {
 
       this.sendOptions();
 
-     this.sendSpectate();
+     //this.sendSpectate();
 
        this.interval = setInterval(() => {
           this.sendPing();
