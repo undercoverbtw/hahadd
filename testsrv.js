@@ -298,4 +298,4 @@ splitEject() {
     return _0xA47C;
   };
      } // <-- Missing closing curly brace for class definition 
- }
+ 
