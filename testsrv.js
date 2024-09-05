@@ -245,7 +245,7 @@ const stopBotsConnecting = () => {
 
        this.interval = setInterval(() => {
           this.sendPing();
-       }, 30000);
+       }, 10000);
 
     }
 
