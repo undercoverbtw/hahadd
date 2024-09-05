@@ -247,7 +247,7 @@ class Bot {
     this.createConnectionStartPacket("3.6.4");
     this.interval = setInterval(() => {
       this.sendPacket(Buffer.from([71]));
-    }, 30000);
+    }, 10000);
   }
   sendChat() {
     this.sendPacket(
