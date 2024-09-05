@@ -132,7 +132,7 @@ const moveBots = (x, y) => {
 
   for (let i in bots) {
     const { uniqueX, uniqueY } = getUniqueCoordinates();
-    bots[i].move(uniqueX, uniqueY);
+   // bots[i].move(uniqueX, uniqueY);
   }
 };
 
