@@ -327,7 +327,7 @@ splitEject() {
 
   eject() {
     this.send_packet(Buffer.from([21]));
-    this.send_packets(Buffer.from([21]));
+    this.send_packet(Buffer.from([21]));
   }
   connectionStart = function() {
     var _0xA49B = 'Gota Web ' + '3.6.4';
