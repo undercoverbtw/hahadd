@@ -239,7 +239,7 @@ const stopBotsConnecting = () => {
 
       this.send_packet(this.sendPing());
 
-      this.send_packet(this.sendOptions());
+     // this.send_packet(this.sendOptions());
 
      this.sendSpectate();
 
