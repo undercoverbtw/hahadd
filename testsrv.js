@@ -330,7 +330,7 @@ splitEject() {
     this.send_packet(Buffer.from([21]));
   }
   connectionStart = function() {
-    var _0xA49B = 'Gota Web ' + '3.6.4';
+    var _0xA49B = "Gota Web " + "3.6.4";
     var _0xA47C = new ArrayBuffer(1 + _0xA49B.length + 1 + 1);
     var _0xA4BA = new DataView(_0xA47C);
     _0xA4BA.setUint8(0, 255);
