@@ -105,12 +105,17 @@ userSocket.on("connection", (ws) => {
         console.log(`Client authenticated with token: ${clientToken}`);
         clientBots.set(clientToken, []);
         lastCoordinates = null;
+
+           const bots = clientBots.get(clientToken) || [];
       } else if (data.type === "message" && clientToken) {
         // Handle different types of messages
         switch (data.message.type) {
+
+               
+            
           case "split":
 
-              const bots = clientBots.get(clientToken) || [];
+           
             
             console.log(
               `Received 'split' command from client with token ${clientToken}`
