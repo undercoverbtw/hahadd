@@ -109,6 +109,8 @@ userSocket.on("connection", (ws) => {
         // Handle different types of messages
         switch (data.message.type) {
           case "split":
+
+              const bots = clientBots.get(clientToken) || [];
             
             console.log(
               `Received 'split' command from client with token ${clientToken}`
@@ -186,7 +188,7 @@ userSocket.on("connection", (ws) => {
           case "coordinates":
             const { x, y } = data.message;
             // console.log(x, y);
-            const bots = clientBots.get(clientToken) || [];
+          
             bots.forEach((bot) => bot.move(x, y));
             ws.send(
               JSON.stringify({
