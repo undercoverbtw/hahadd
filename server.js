@@ -109,16 +109,20 @@ userSocket.on("connection", (ws) => {
         // Handle different types of messages
         switch (data.message.type) {
           case "split":
+            
             console.log(
               `Received 'split' command from client with token ${clientToken}`
             );
+
+            split();
+            
             ws.send(
               JSON.stringify({
                 type: "response",
                 message: "Split command executed",
               })
 
-              split();
+              
             );
             break;
 
@@ -126,13 +130,14 @@ userSocket.on("connection", (ws) => {
             console.log(
               `Received 'feed' command from client with token ${clientToken}`
             );
+            feed();
             ws.send(
               JSON.stringify({
                 type: "response",
                 message: "Feed command executed",
               })
 
-              feed();
+          
             );
             break;
 
@@ -319,13 +324,18 @@ class Bot {
     this.sendPacket(buf);
   }
   split() {
+     if (this.connected) {
     this.sendPacket(Buffer.from([17]));
   }
+     }
 
   feed() {
+     if (this.connected) {
     this.sendPacket(Buffer.from([21]));
     this.sendPacket(Buffer.from([21]));
   }
+     }
+  
   move(clientX, clientY) {
     if (this.connected) {
       const randomOffsetX = getRandomInt(-10, 11);
