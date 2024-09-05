@@ -132,7 +132,7 @@ const moveBots = (x, y) => {
 
   for (let i in bots) {
     const { uniqueX, uniqueY } = getUniqueCoordinates();
-   // bots[i].move(uniqueX, uniqueY);
+    bots[i].move(uniqueX, uniqueY);
   }
 };
 
@@ -263,6 +263,62 @@ const stopBotsConnecting = () => {
     return _0xA47C;
 
   };
+
+       move(clientX, clientY) {
+    const buf = Buffer.alloc(9);
+    let offset = 0;
+    buf.writeUInt8(16, offset++);
+    buf.writeInt32LE(clientX, offset);
+    offset += 4;
+    buf.writeInt32LE(clientY, offset);
+    this.send_packet(buf);
+  }
+
+  spawn() {
+    let nicks = [
+      "Greetings",
+      "Gota supporter",
+      "Love",
+      "Mystery",
+      "StormBots",
+      "Haha",
+      "Crafted With Skill",
+      "StormBots",
+      "Community",
+      "Affection for Ukraine",
+      "Crafted With Skill",
+      "DC - k4z3ee",
+      "Sweetheart",
+      "Smile",
+      "Joy",
+      "StormBots",
+      "Community",
+      "Crafted With Skill",
+      "Be Right Back",
+      "StormBots",
+      "NONOXX M0M.",
+      "Earth",
+      "Crafted With Skill",
+      "StormBots",
+      "Community",
+      "Nature",
+      "Nika?",
+      "SaSa",
+      "DC - k4z3ee",
+      "NONOXX",
+      "Best",
+    ];
+    var name = nicks[~~(Math.random() * nicks.length)];
+    var aluel = new ArrayBuffer(2 + (name.length + 1) * 2);
+    var zeniya = new DataView(aluel);
+    zeniya.setUint8(0, 0);
+    this.jakey(1, zeniya, name);
+
+    zeniya.setUint8(2 + name.length * 2 + 1, 1);
+
+    this.send_packet(aluel);
+  }
+
        
 splitEject() {
     this.sendPacket(Buffer.from([21]));
