@@ -263,7 +263,7 @@ function countConnectedBots(clientToken) {
 class Bot {
   constructor(clientToken) {
     this.clientToken = clientToken;
-    this.server = "wss://165-79-217-144-ip.gota.io:1502/";
+    this.server = "wss://212-245-254-51-ip.gota.io:1505/";
     this.proxy = null;
     this.proxyAgent = null;
     this.ws = null;
