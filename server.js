@@ -114,7 +114,7 @@ userSocket.on("connection", (ws) => {
               `Received 'split' command from client with token ${clientToken}`
             );
 
-            split();
+            Bot.split();
             
             ws.send(
               JSON.stringify({
@@ -130,7 +130,7 @@ userSocket.on("connection", (ws) => {
             console.log(
               `Received 'feed' command from client with token ${clientToken}`
             );
-            feed();
+            Bot.feed();
             ws.send(
               JSON.stringify({
                 type: "response",
@@ -241,16 +241,7 @@ function stopBots(clientToken) {
   });
   clientBots.set(clientToken, []); // Clear the bot list
 }
-  function split() {
-    this.sendPacket(Buffer.from([17]));
-  
-     }
 
- function feed() {
-    this.sendPacket(Buffer.from([21]));
-    this.sendPacket(Buffer.from([21]));
-  
-     }
 
 function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -335,6 +326,16 @@ class Bot {
     this.sendPacket(buf);
   }
 
+   split() {
+    this.sendPacket(Buffer.from([17]));
+  
+     }
+
+  feed() {
+    this.sendPacket(Buffer.from([21]));
+    this.sendPacket(Buffer.from([21]));
+  
+     }
   
   move(clientX, clientY) {
     if (this.connected) {
