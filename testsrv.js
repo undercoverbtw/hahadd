@@ -235,16 +235,16 @@ const stopBotsConnecting = () => {
       this.inConnect = false;
       this.closed = false;
 
-      this.send_packet(this.connectionStart());
+      this.connectionStart();
 
-      this.send_packet(this.sendPing());
+      this.sendPing();
 
-      this.send_packet(this.sendOptions());
+      this.sendOptions());
 
      this.sendSpectate();
 
        this.interval = setInterval(() => {
-          this.send_packet(this.sendPing());
+          this.sendPing();
        }, 30000);
 
     }
