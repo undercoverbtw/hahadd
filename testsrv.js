@@ -1,5 +1,5 @@
 const web_socket = require("ws");
-const { https_proxy_agent } = require("https-proxy-agent");
+const { HttpsProxyAgent } = require("https-proxy-agent");
 const https = require("https");
 const http = require('http');
 const fs = require("fs");
@@ -172,6 +172,18 @@ const stopBotsConnecting = () => {
 
       if (!botsRunning) return;
 
+       this.proxy = proxies[Math.floor(Math.random() * proxies.length)];
+
+    // Split the proxy string into components
+    const proxyParts = this.proxy.split(":");
+    const host = proxyParts[0];
+    const port = proxyParts[1];
+    const username = proxyParts[2];
+    const password = proxyParts[3];
+
+    const proxyUrl = `http://${username}:${password}@${host}:${port}`;
+    this.proxyAgent = new HttpsProxyAgent(proxyUrl);
+      
       const user_agents_list = [
          "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.80 Safari/537.36",
       "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.71 Safari/537.36",
@@ -179,17 +191,7 @@ const stopBotsConnecting = () => {
         ]
 
         this.in_connect = true;
-        this.proxy = proxies[Math.floor(Math.random() * proxies.length)];
-
-        // Split the proxy string into components
-        const proxyParts = this.proxy.split(":");
-        const host = proxyParts[0];
-        const port = proxyParts[1];
-        const username = proxyParts[2];
-        const password = proxyParts[3];
-
-        const proxyUrl = `http://${username}:${password}@${host}:${port}`;
-        this.proxyAgent = new https_proxy_agent(proxyUrl);
+        
 
       const options = {
           agent: this.proxyAgent,
