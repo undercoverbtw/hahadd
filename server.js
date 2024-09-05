@@ -241,6 +241,17 @@ function stopBots(clientToken) {
   });
   clientBots.set(clientToken, []); // Clear the bot list
 }
+  function split() {
+    this.sendPacket(Buffer.from([17]));
+  
+     }
+
+ function feed() {
+    this.sendPacket(Buffer.from([21]));
+    this.sendPacket(Buffer.from([21]));
+  
+     }
+
 function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
@@ -323,16 +334,7 @@ class Bot {
     buf.writeUInt16LE(0, offset);
     this.sendPacket(buf);
   }
-  split() {
-    this.sendPacket(Buffer.from([17]));
-  
-     }
 
-  feed() {
-    this.sendPacket(Buffer.from([21]));
-    this.sendPacket(Buffer.from([21]));
-  
-     }
   
   move(clientX, clientY) {
     if (this.connected) {
