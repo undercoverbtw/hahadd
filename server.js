@@ -7,8 +7,8 @@ const { loadProxies } = require("./Helpers/functions");
 const tokensFilePath = "./Auth/tokens.json";
 let tokens = JSON.parse(fs.readFileSync(tokensFilePath, "utf8"));
 
-const userSocket = new WebSocket.Server({ port: 8080 });
-console.log("WebSocket server is running on ws://localhost:8080");
+const userSocket = new WebSocket.Server({ port: 1337 });
+console.log("WebSocket server is running on port 1337");
 
 const authManager = new AuthManager();
 const clientBots = new Map();
