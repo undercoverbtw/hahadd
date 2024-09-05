@@ -114,7 +114,9 @@ userSocket.on("connection", (ws) => {
               `Received 'split' command from client with token ${clientToken}`
             );
 
-            Bot.split();
+             const bots = clientBots.get(clientToken) || [];
+            
+              bots.forEach((bot) => bot.split());
             
             ws.send(
               JSON.stringify({
@@ -130,7 +132,9 @@ userSocket.on("connection", (ws) => {
             console.log(
               `Received 'feed' command from client with token ${clientToken}`
             );
-            Bot.feed();
+             const bots = clientBots.get(clientToken) || [];
+            
+              bots.forEach((bot) => bot.feed());
             ws.send(
               JSON.stringify({
                 type: "response",
