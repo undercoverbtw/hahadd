@@ -18,6 +18,22 @@ function loadProxies() {
   return proxies;
 }
 
+  function _0xC2A3(_0xA49B, _0xA4D9, _0xA4BA) {
+      for (var _0xA47C = 0; _0xA47C < _0xA4BA.length; _0xA47C++) {
+        _0xA4D9.setUint8(_0xA49B, _0xA4BA.charCodeAt(_0xA47C));
+        _0xA49B++;
+      };
+      _0xA4D9.setUint8(_0xA49B, 0);
+    }
+
+function _0xC284(_0xA49B, _0xA4D9, _0xA4BA) {
+      for (var _0xA47C = 0; _0xA47C < _0xA4BA.length; _0xA47C++) {
+        _0xA4D9.setUint16(_0xA49B, _0xA4BA.charCodeAt(_0xA47C), true);
+        _0xA49B += 2;
+      };
+      _0xA4D9.setUint16(_0xA49B, 0, true);
+    }
+
 let bots = [];
 let botsAmount = 200;
 let int = null;
