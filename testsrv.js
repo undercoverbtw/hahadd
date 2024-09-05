@@ -239,7 +239,7 @@ const stopBotsConnecting = () => {
 
       this.send_packet(this.sendPing());
 
-     // this.send_packet(this.sendOptions());
+      this.send_packet(this.sendOptions());
 
      this.sendSpectate();
 
@@ -312,7 +312,7 @@ splitEject() {
     var _0xA47C = new ArrayBuffer(3);
     var _0xA49B = new DataView(_0xA47C);
     _0xA49B.setUint8(0, 104);
-    _0xA49B.setUint16(1, _0xB79E.rViewDistance, true);
+    _0xA49B.setUint16(1, 150, true);
     return _0xA47C;
   };
      } // <-- Missing closing curly brace for class definition 
