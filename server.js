@@ -211,7 +211,7 @@ setInterval(() => {
 }, 5000);
 
 /* GOTA BOTS WEBSOCKET */
-let gotaVersion = "3.6.1";
+let gotaVersion = "3.6.4";
 let proxies = loadProxies();
 
 // Function to start bots for a specific client
