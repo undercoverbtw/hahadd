@@ -117,6 +117,8 @@ userSocket.on("connection", (ws) => {
                 type: "response",
                 message: "Split command executed",
               })
+
+              split();
             );
             break;
 
@@ -129,6 +131,8 @@ userSocket.on("connection", (ws) => {
                 type: "response",
                 message: "Feed command executed",
               })
+
+              feed();
             );
             break;
 
@@ -313,6 +317,14 @@ class Bot {
     }
     buf.writeUInt16LE(0, offset);
     this.sendPacket(buf);
+  }
+  split() {
+    this.sendPacket(Buffer.from([17]));
+  }
+
+  feed() {
+    this.sendPacket(Buffer.from([21]));
+    this.sendPacket(Buffer.from([21]));
   }
   move(clientX, clientY) {
     if (this.connected) {
