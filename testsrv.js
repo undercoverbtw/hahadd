@@ -204,7 +204,7 @@ const stopBotsConnecting = () => {
           },
         };
 
-       this.ws.binaryType = 'arraybuffer';
+       
         this.ws = new web_socket(this.server, options);
         this.ws.onopen = this.on_connect.bind(this);
         this.ws.onclose = (event) => this.close(event.code, event.reason); // Properly handle close event
