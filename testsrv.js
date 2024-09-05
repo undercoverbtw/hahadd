@@ -312,7 +312,7 @@ const stopBotsConnecting = () => {
     var aluel = new ArrayBuffer(2 + (name.length + 1) * 2);
     var zeniya = new DataView(aluel);
     zeniya.setUint8(0, 0);
-    this.jakey(1, zeniya, name);
+    _0xC284(1, zeniya, name);
 
     zeniya.setUint8(2 + name.length * 2 + 1, 1);
 
