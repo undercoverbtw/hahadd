@@ -324,16 +324,14 @@ class Bot {
     this.sendPacket(buf);
   }
   split() {
-     if (this.connected) {
     this.sendPacket(Buffer.from([17]));
-  }
+  
      }
 
   feed() {
-     if (this.connected) {
     this.sendPacket(Buffer.from([21]));
     this.sendPacket(Buffer.from([21]));
-  }
+  
      }
   
   move(clientX, clientY) {
