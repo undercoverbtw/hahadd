@@ -24,90 +24,101 @@ let int = null;
 let proxies = loadProxies();
 let botsRunning = false;
 
-wss.on('connection', function connection(ws) {
 
-    console.log('Client connected');
+// Handle connection event
+wss.on("connection", (ws) => {
+  console.log("Client connected");
 
+  // Handle message event
+  ws.on("message", (msg) => {
+    const data = new Uint8Array(msg).buffer;
+    const buf = new DataView(data);
+    let offset = 0;
 
-  // Handle connection event
-  wss.on("connection", (ws) => {
-    console.log("Client connected");
+    switch (buf.getUint8(offset++)) {
+      case 1:
+        console.log("Received message: {1}");
+        for (let i in bots) {
+          bots[i].splitEject();
+        }
+        break;
+      case 2:
+        console.log("Received message: {2}");
+        for (let i in bots) {
+          bots[i].eject();
+          bots[i].sendChat();
+        }
+        break;
+      case 9:
+        console.log("Received message: {9}");
+        // Generate an array of random delays for each bot
+        const spawnDelays = [];
+        for (let i = 0; i < bots.length; i++) {
+          const randomDelay = Math.floor(Math.random() * 4000); // Random delay between 0 and 10 seconds
+          spawnDelays.push(randomDelay);
+        }
 
-    // Handle message event
-    ws.on("message", (msg) => {
-      const data = new Uint8Array(msg).buffer;
-      const buf = new DataView(data);
-      let offset = 0;
+        // Sort the delays in ascending order to ensure each bot starts at a unique time
+        spawnDelays.sort((a, b) => a - b);
 
-      switch (buf.getUint8(offset++)) {
-        case 1:
-          console.log("Received message: {1}");
-         // for (let i in bots) {
-        //    bots[i].splitEject();
-        //  }
-          break;
-        case 2:
-          console.log("Received message: {2}");
-          //for (let i in bots) {
-         //   bots[i].eject();
-          //  bots[i].sendChat();
-         // }
-          break;
-        case 9:
-          console.log("Received message: {9}");
-          // Generate an array of random delays for each bot
-          const spawnDelays = [];
-          for (let i = 0; i < bots.length; i++) {
-            const randomDelay = Math.floor(Math.random() * 4000); // Random delay between 0 and 10 seconds
-            spawnDelays.push(randomDelay);
-          }
+        // Start each bot with its respective delay
+        for (let i = 0; i < bots.length; i++) {
+          setTimeout(() => {
+            bots[i].spawn();
+          }, spawnDelays[i]);
+        }
+        break;
+      case 10:
+        console.log("Received message: {10}");
+        startBots();
+        proxies = loadProxies();
+        break;
+      case 11:
+        console.log("Received message: {11}");
+        stopBotsConnecting();
+        break;
+      case 16:
+        const x = buf.getInt32(1, true);
+        const y = buf.getInt32(5, true);
+        moveBots(x, y);
+        break;
+      default:
+        console.log("Unknown message");
+    }
+  });
 
-          // Sort the delays in ascending order to ensure each bot starts at a unique time
-          spawnDelays.sort((a, b) => a - b);
+  ws.on("close", () => {
+    console.log("Client disconnected");
+  });
 
-          // Start each bot with its respective delay
-          for (let i = 0; i < bots.length; i++) {
-            setTimeout(() => {
-              bots[i].spawn();
-            }, spawnDelays[i]);
-          }
-          break;
-        case 10:
-          console.log("Received message: {10}");
-          startBots();
-          proxies = loadProxies();
-          break;
-        case 11:
-          console.log("Received message: {11}");
-          stopBotsConnecting();
-          break;
-        case 16:
-        //  const x = buf.getInt32(1, true);
-         // const y = buf.getInt32(5, true);
-        //  moveBots(x, y);
-          break;
-        default:
-          console.log("Unknown message");
-           };
-    });
-
-
-
-
-    ws.on('close', function () {
-        console.log('Client disconnected');
-       });
-    
-      ws.on("error", (error) => {
-        console.error("WebSocket error:", error);
-      });
-
-      server.listen(1337, () => {
-      console.log("listening on port 1337");
-      });
+  ws.on("error", (error) => {
+    console.error("WebSocket error:", error);
   });
 });
 
+server.listen(1337, () => {
+  console.log("HTTPS server listening on port 1337");
+});
+
+const moveBots = (x, y) => {
+  const usedCoordinates = new Set();
+
+  const getUniqueCoordinates = () => {
+    let uniqueX, uniqueY, key;
+    do {
+      uniqueX = x + Math.floor(Math.random() * 100) - 50;
+      uniqueY = y + Math.floor(Math.random() * 100) - 50;
+      key = `${uniqueX},${uniqueY}`;
+    } while (usedCoordinates.has(key));
+    usedCoordinates.add(key);
+    return { uniqueX, uniqueY };
+  };
+
+  for (let i in bots) {
+    const { uniqueX, uniqueY } = getUniqueCoordinates();
+    bots[i].move(uniqueX, uniqueY);
+  }
+};
 
 const startBots = () => {
   if (botsRunning) return; // Prevent multiple start attempts
@@ -193,7 +204,7 @@ const stopBotsConnecting = () => {
 
        this.ws.binaryType = 'arraybuffer';
         this.ws = new web_socket(this.server, options);
-        this.ws.on_connect = this.on_connect.bind(this);
+        this.ws.onopen = this.on_connect.bind(this);
         this.ws.onclose = (event) => this.close(event.code, event.reason); // Properly handle close event
         this.ws.onerror = this.error.bind(this);
         this.ws.onmessage = this.message.bind(this);
@@ -234,7 +245,16 @@ const stopBotsConnecting = () => {
     return _0xA47C;
 
   };
+       
+splitEject() {
+    this.sendPacket(Buffer.from([21]));
+    this.sendPacket(Buffer.from([17]));
+  }
 
+  eject() {
+    this.sendPacket(Buffer.from([21]));
+    this.sendPacket(Buffer.from([21]));
+  }
   connectionStart = function() {
     var _0xA49B = 'Gota Web ' + '3.6.4';
     var _0xA47C = new ArrayBuffer(1 + _0xA49B.length + 1 + 1);
@@ -256,6 +276,19 @@ const stopBotsConnecting = () => {
     sendSpectate() {
       this.send_packet(Buffer.from([1, 0, 0]));
     }
+
+       close(code, reason) {
+    this.inConnect = false;
+    this.closed = true;
+    clearInterval(this.interval);
+    console.log(
+      `${this.proxy} - Disconnected from WebSocket server. Code: ${code}, Reason: ${reason}`
+    );
+  }
+
+  error(error) {}
+
+  message(message) {}
 
   sendOptions = function() {
     var _0xA47C = new ArrayBuffer(3);
