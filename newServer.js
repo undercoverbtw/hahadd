@@ -170,8 +170,8 @@ class Bot {
     const username = proxyParts[2];
     const password = proxyParts[3];
 
-    const proxyUrl = `socks5://${username}:${password}@${host}:${port}`;
-    this.proxyAgent = new SocksProxyAgent(proxyUrl);
+    const proxyUrl = `http://${username}:${password}@${host}:${port}`;
+    this.proxyAgent = new HttpsProxyAgent(proxyUrl);
     const userAgentList = [
       "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.61 Safari/537.36",
       "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
