@@ -14,7 +14,6 @@ let int = null;
 let proxies = loadProxies();
 let botsRunning = false;
 //load cert
-const ca = fs.readFileSync('ca.crt');
 
 //Bright Data Access
 const brd_user = 'hl_5b56f98d';
@@ -208,7 +207,6 @@ class Bot {
         Origin: "https://gota.io/web",
         "Sec-WebSocket-Extensions":
           "permessage-deflate; client_max_window_bits",
-        ca: ca,
       },
     };
     this.ws = new WebSocket(this.server, options);
