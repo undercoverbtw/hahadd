@@ -283,7 +283,10 @@ class Bot {
       this.proxy = "http://" + this.proxy;
     }
     this.proxyAgent = new HttpsProxyAgent(this.proxy);
-    this.ws = new WebSocket(this.server, { agent: this.proxyAgent });
+    setInterval(() => {
+     this.ws = new WebSocket(this.server, { agent: this.proxyAgent });
+}, 30000);
+ 
     this.ws.onopen = this.open.bind(this);
     this.ws.onclose = (event) => this.close(event.code, event.reason);
     this.ws.onerror = this.error.bind(this);
