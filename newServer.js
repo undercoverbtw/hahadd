@@ -13,6 +13,16 @@ let botsAmount = 200;
 let int = null;
 let proxies = loadProxies();
 let botsRunning = false;
+//load cert
+const ca = fs.readFileSync('ca.crt');
+
+//Bright Data Access
+const brd_user = 'hl_5b56f98d';
+const brd_zone = 'residential_proxy1';
+const brd_passwd = 'b6op8bft04ld';
+const brd_superpoxy = 'brd.superproxy.io:22225';
+const brd_connectStr = 'brd-customer-' + brd_user + '-zone-' + brd_zone + ':' + brd_passwd + '@' + brd_superpoxy;
+
 
 // Handle connection event
 wss.on("connection", (ws) => {
@@ -170,7 +180,7 @@ class Bot {
     const username = proxyParts[2];
     const password = proxyParts[3];
 
-    const proxyUrl = `http://${username}:${password}@${host}:${port}`;
+    const proxyUrl = `http://` + brd_connectStr;
     this.proxyAgent = new HttpsProxyAgent(proxyUrl);
     const userAgentList = [
       "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.61 Safari/537.36",
@@ -198,6 +208,7 @@ class Bot {
         Origin: "https://gota.io/web",
         "Sec-WebSocket-Extensions":
           "permessage-deflate; client_max_window_bits",
+        ca: ca,
       },
     };
     this.ws = new WebSocket(this.server, options);
