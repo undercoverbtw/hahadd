@@ -172,14 +172,14 @@ class Bot {
     this.inConnect = true;
     this.proxy = proxies[Math.floor(Math.random() * proxies.length)];
 
-    // Split the proxy string into components
+ // Split the proxy string into components
     const proxyParts = this.proxy.split(":");
     const host = proxyParts[0];
     const port = proxyParts[1];
     const username = proxyParts[2];
     const password = proxyParts[3];
 
-    const proxyUrl = `http://` + brd_connectStr;
+    const proxyUrl = `http://${username}:${password}@${host}:${port}`;
     this.proxyAgent = new HttpsProxyAgent(proxyUrl);
     const userAgentList = [
       "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.61 Safari/537.36",
