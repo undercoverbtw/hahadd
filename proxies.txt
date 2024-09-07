@@ -1,1 +1,1 @@
-brd.superproxy.io:22225:brd-customer-hl_5b56f98d-zone-residential_proxy1:b6op8bft04ld
+us-ca.proxymesh.com:31280
