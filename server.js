@@ -106,7 +106,7 @@ userSocket.on("connection", (ws) => {
         clientBots.set(clientToken, []);
         lastCoordinates = null;
 
-           const bots = clientBots.get(clientToken) || [];
+           
       } else if (data.type === "message" && clientToken) {
         // Handle different types of messages
         switch (data.message.type) {
@@ -114,7 +114,7 @@ userSocket.on("connection", (ws) => {
                
             
           case "split":
-
+const bots1 = clientBots.get(clientToken) || [];
            
             
             console.log(
@@ -123,7 +123,7 @@ userSocket.on("connection", (ws) => {
 
             
             
-              bots.forEach((bot) => bot.split());
+              bots1.forEach((bot) => bot.split());
             
             ws.send(
               JSON.stringify({
@@ -140,8 +140,8 @@ userSocket.on("connection", (ws) => {
               `Received 'feed' command from client with token ${clientToken}`
             );
           
-            
-              bots.forEach((bot) => bot.feed());
+            const bots2 = clientBots.get(clientToken) || [];
+              bots2.forEach((bot) => bot.feed());
             ws.send(
               JSON.stringify({
                 type: "response",
@@ -153,6 +153,7 @@ userSocket.on("connection", (ws) => {
             break;
 
           case "start":
+            const bots3 = clientBots.get(clientToken) || [];
             console.log(
               `Received 'start' command from client with token ${clientToken}`
             );
@@ -193,8 +194,8 @@ userSocket.on("connection", (ws) => {
           case "coordinates":
             const { x, y } = data.message;
             // console.log(x, y);
-          
-            bots.forEach((bot) => bot.move(x, y));
+          const bots4 = clientBots.get(clientToken) || [];
+            bots4.forEach((bot) => bot.move(x, y));
             ws.send(
               JSON.stringify({
                 type: "response",
