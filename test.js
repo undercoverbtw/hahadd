@@ -13,7 +13,7 @@ async function makeRequest(url) {
 
     const page = await browser.newPage();
 
-    // Disable JavaScript
+    // Ensure JavaScript is enabled
     await page.setJavaScriptEnabled(true);
 
     // Set the user agent to mimic a real browser
@@ -33,7 +33,13 @@ async function makeRequest(url) {
     if (cloudflareChallengePattern.test(content)) {
       console.log('Cloudflare challenge detected.');
     } else {
-      console.log(`Successfully accessed ${url}`);
+      // Check for specific text
+      const targetText = 'Eat other players to earn XP and level up!';
+      if (content.includes(targetText)) {
+        console.log(`Success! Found the text: "${targetText}"`);
+      } else {
+        console.log('The specific text was not found on the page.');
+      }
     }
 
     await browser.close();
