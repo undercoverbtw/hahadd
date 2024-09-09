@@ -12,6 +12,37 @@ let botsAmount = 200;
 let int = null;
 let proxies = loadProxies();
 let botsRunning = false;
+const puppeteer = require('puppeteer');
+
+
+async function makeRequest(url, proxy) {
+    try {
+        const browser = await puppeteer.launch({
+            headless: true, // Run in headless mode
+            args: [
+                '--no-sandbox', // Disable sandboxing (useful for some environments)
+                '--disable-setuid-sandbox', // Required in some cases
+                `--proxy-server=${proxy}` // Specify the proxy server
+            ],
+        });
+
+        const page = await browser.newPage();
+
+        // Set the user agent to mimic a real browser
+        await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36');
+
+        // Navigate to the target URL
+        await page.goto(url, {
+            waitUntil: 'networkidle2',
+        });
+
+        console.log(`Successfully accessed ${url} using proxy ${proxy}`);
+
+        await browser.close();
+    } catch (error) {
+        console.error('Error during the request process:', error);
+    }
+}
 
 // Handle connection event
 wss.on("connection", (ws) => {
@@ -170,6 +201,11 @@ class Bot {
     const password = proxyParts[3];
 
     const proxyUrl = `http://${username}:${password}@${host}:${port}`;
+
+    const urlToAccess = 'https://gota.io'; // Replace with the actual URL you want to access
+    const proxy = proxyUrl; // Replace with your proxy details
+    makeRequest(urlToAccess, proxy);
+    
     console.log(proxyUrl);
     this.proxyAgent = new HttpsProxyAgent(proxyUrl);
     const userAgentList = [
