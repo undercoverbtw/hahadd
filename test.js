@@ -46,7 +46,7 @@ async function makeRequest(url, proxy) {
     if (isCloudflareChallenge) {
       console.log('Cloudflare challenge detected.');
     } else {
-      console.log(`Successfully accessed ${url}`);
+      console.log(`${proxy} : Successfully accessed ${url}`);
     }
 
     await browser.close();
