@@ -23,7 +23,7 @@ async function makeRequest(url) {
     });
 
     // Optional: You can add extra delays or actions if needed
-    await page.waitForTimeout(10000); // Wait for 10 seconds
+ //   await page.waitForTimeout(10000); // Wait for 10 seconds
 
     // Check if the page content includes signs of Cloudflare challenge
     const content = await page.content();
