@@ -24,18 +24,13 @@ async function makeRequest(url) {
     // Fetch the page content
     const content = await page.content();
 
-    // Extract version information from the page content
-    // Adjust the selector based on the actual location of the version number
-    const versionSelector = 'selector-for-version-element'; // Replace with actual selector
-    const versionElement = await page.$(versionSelector);
-    const versionText = versionElement ? await page.evaluate(el => el.textContent) : '';
+    // Define a pattern or keyword indicating Cloudflare's challenge page
+    const cloudflareChallengePattern = /Checking your browser|Please enable JavaScript|Access denied/i;
 
-    const versionPattern = /3\.6\.4/; // Pattern to match the version number
-
-    if (versionPattern.test(versionText)) {
-      console.log(`Version ${versionText.trim()} successfully fetched from ${url}`);
+    if (cloudflareChallengePattern.test(content)) {
+      console.log('Cloudflare challenge detected.');
     } else {
-      console.log('Version 3.6.4 not found on the page.');
+      console.log(`Successfully accessed ${url}`);
     }
 
     await browser.close();
