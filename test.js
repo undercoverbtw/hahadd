@@ -1,14 +1,10 @@
 const axios = require('axios');
-const cheerio = require('cheerio');
 
 // Define the async function
 async function makeRequest(url) {
   try {
     // Perform a GET request
     const response = await axios.get(url);
-
-    // Load the response data into cheerio
-    const $ = cheerio.load(response.data);
 
     // Define patterns indicating Cloudflare's challenge page
     const cloudflareChallengePatterns = [
