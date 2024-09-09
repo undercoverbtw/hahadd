@@ -1,14 +1,17 @@
 const puppeteer = require('puppeteer');
 
 // Define the async function
-async function makeRequest(url) {
+async function makeRequest(url, proxy) {
   try {
     const browser = await puppeteer.launch({
-      headless: true, // Run in headful mode to mimic a real browser
+      headless: true, // Run in headless mode
       args: [
         '--no-sandbox',
-        '--disable-setuid-sandbox'
-      ]
+        '--disable-setuid-sandbox',
+        '--window-size=1920x1080', // Set window size to avoid issues with responsive layouts
+        `--proxy-server=${proxy}` // Set the proxy server
+      ],
+      defaultViewport: null // Use default viewport size
     });
 
     const page = await browser.newPage();
@@ -16,14 +19,17 @@ async function makeRequest(url) {
     // Set the user agent to mimic a real browser
     await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36');
 
+    // Optional: Set extra headers
+    await page.setExtraHTTPHeaders({
+      'Accept-Language': 'en-US,en;q=0.9',
+      'Connection': 'keep-alive'
+    });
+
     // Navigate to the target URL
     await page.goto(url, {
       waitUntil: 'networkidle2',
       timeout: 0 // Disable the timeout for navigating
     });
-
-    // Optional: You can add extra delays or actions if needed
- //   await page.waitForTimeout(10000); // Wait for 10 seconds
 
     // Check if the page content includes signs of Cloudflare challenge
     const content = await page.content();
@@ -52,6 +58,7 @@ async function makeRequest(url) {
 // Call the function with example arguments
 (async () => {
   const url = 'https://gota.io'; // Replace with the target URL
+  const proxy = 'http://43.229.11.86:5724'; // Replace with your proxy server
 
-  await makeRequest(url);
+  await makeRequest(url, proxy);
 })();
