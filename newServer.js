@@ -14,7 +14,7 @@ let proxies = loadProxies();
 let botsRunning = false;
 
 
-static sendRequest(agent) {
+async sendRequest(agent) {
   try {
     // Launch Puppeteer browser instance with proxy settings
     const browser = await puppeteer.launch({
