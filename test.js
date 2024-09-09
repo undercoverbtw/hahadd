@@ -8,13 +8,14 @@ const puppeteer = require('puppeteer');
   const page = await browser.newPage();
   
   try {
-    // Navigate to the website
-    await page.goto('https://gota.io', { waitUntil: 'networkidle2' });
+    // Increase the timeout and wait until the page has fully loaded
+    await page.goto('https://gota.io', { waitUntil: 'networkidle2', timeout: 60000 });
     
-    // Check for specific content or elements to verify successful access
+    // Capture the page content
     const content = await page.content();
     
-    if (content.includes('Some specific content or element indicating success')) {
+    // Replace with a unique content check
+    if (content.includes('Unique content indicating successful page load')) {
       console.log('Successful');
     } else {
       console.log('Failed to bypass Cloudflare');
