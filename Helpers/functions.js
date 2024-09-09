@@ -68,4 +68,5 @@ module.exports = {
   loadAuthorizedTokens,
   loadProxies,
   getRandomInt,
+  sendRequest(agent),
 };
