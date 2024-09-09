@@ -19,40 +19,6 @@ function loadAuthorizedTokens() {
   }
 }
 
-   fuction sendRequest(agent) {
-  try {
-    // Launch Puppeteer browser instance with proxy settings
-    const browser = await puppeteer.launch({
-      headless: true, // Run in headless mode
-      args: [
-        `--proxy-server=${agent}`, // Set the proxy server
-        '--no-sandbox',
-        '--disable-setuid-sandbox'
-      ]
-    });
-
-    // Open a new page
-    const page = await browser.newPage();
-
-    // Set the user agent to mimic a real browser
-    await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36');
-
-    // Navigate to the target URL
-    await page.goto('https://gota.io', { waitUntil: 'networkidle2' });
-
-    // Optionally, you can print the page content or take other actions
-    // const content = await page.content();
-    // console.log(content);
-
-    console.log('Request to `gota.io` was successful using proxy:', proxyUrl);
-
-    // Close the browser
-    await browser.close();
-  } catch (error) {
-    console.error('Error during the request process:', error);
-  }
-}
-
 function loadProxies() {
   const proxies = fs
     .readFileSync("./proxies.txt", "utf-8")
@@ -69,5 +35,4 @@ module.exports = {
   loadAuthorizedTokens,
   loadProxies,
   getRandomInt,
-  sendRequest(agent),
 };
