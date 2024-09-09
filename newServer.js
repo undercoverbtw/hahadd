@@ -215,7 +215,7 @@ class Bot {
 
     const url = 'https://gota.io'; // Replace with the target URL
 
-    const requestSuccessful = await makeRequest(url, proxyUrl);
+
 
   
         const options = {
