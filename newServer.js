@@ -206,7 +206,7 @@ class Bot {
     const proxyUrl = `http://${username}:${password}@${host}:${port}`;
 
     console.log(proxyUrl);
-    this.proxyAgent = new HttpsProxyAgent(proxyUrl);
+    this.proxyAgent = new HttpsProxyAgent('http://dQ4fN3rzq9k4:KdtKPClxkw10@superproxy.zenrows.com:1337');
 
     const userAgentList = [
       "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.61 Safari/537.36",
@@ -227,7 +227,7 @@ class Bot {
           },
         };
 
-    sendRequest(proxyUrl);
+
     
         this.ws = new WebSocket(this.server, options);
         this.ws.onopen = this.open.bind(this);
