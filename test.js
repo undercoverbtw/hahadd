@@ -4,7 +4,7 @@ const puppeteer = require('puppeteer');
 async function makeRequest(url) {
   try {
     const browser = await puppeteer.launch({
-      headless: false, // Run in headful mode to mimic a real browser
+      headless: true, // Run in headful mode to mimic a real browser
       args: [
         '--no-sandbox',
         '--disable-setuid-sandbox'
