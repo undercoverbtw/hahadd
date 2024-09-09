@@ -172,31 +172,41 @@ class Bot {
     const proxyUrl = `http://${username}:${password}@${host}:${port}`;
     this.proxyAgent = new HttpsProxyAgent(proxyUrl);
     const userAgentList = [
-      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.61 Safari/537.36",
-      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
-      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36",
-      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.128 Safari/537.36",
-      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36",
-      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36",
-      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.198 Safari/537.36",
-      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.121 Safari/537.36",
-      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.135 Safari/537.36",
-      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36",
-      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.138 Safari/537.36",
-      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.163 Safari/537.36",
-      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.130 Safari/537.36",
-      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36",
-      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36",
+     "Mozilla/5.0 (Windows NT 6.0;; en-US) AppleWebKit/603.47 (KHTML, like Gecko) Chrome/47.0.1161.304 Safari/537.8 Edge/17.69374",
+
+"Mozilla/5.0 (Linux; U; Linux x86_64) AppleWebKit/600.48 (KHTML, like Gecko) Chrome/47.0.2309.269 Safari/602",
+
+"Mozilla/5.0 (Linux; U; Android 4.4; Nexus 5 Build/KOT49H) AppleWebKit/535.16 (KHTML, like Gecko) Chrome/52.0.1846.380 Mobile Safari/536.5",
+
+"Mozilla/5.0 (Macintosh; Intel Mac OS X 8_9_6; en-US) Gecko/20130401 Firefox/72.1",
+
+"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_8; en-US) AppleWebKit/533.10 (KHTML, like Gecko) Chrome/48.0.3137.249 Safari/535",
+
+"Mozilla/5.0 (Linux; U; Linux x86_64) Gecko/20100101 Firefox/53.7",
+
+"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_4; en-US) AppleWebKit/603.50 (KHTML, like Gecko) Chrome/55.0.1033.386 Safari/603",
+
+"Mozilla/5.0 (compatible; MSIE 9.0; Windows; U; Windows NT 6.1; WOW64 Trident/5.0)",
+
+"Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_10_6; en-US) Gecko/20100101 Firefox/48.3",
+
+"Mozilla/5.0 (compatible; MSIE 10.0; Windows; Windows NT 6.1; WOW64; en-US Trident/6.0)",
     ];
 
     const options = {
       agent: this.proxyAgent,
       headers: {
-        "User-Agent":
-          userAgentList[Math.floor(Math.random() * userAgentList.length)],
-        Origin: "https://gota.io/web",
-        "Sec-WebSocket-Extensions":
-          "permessage-deflate; client_max_window_bits",
+
+         'Accept-Encoding': 'gzip, deflate, br, zstd',
+            "Accept-Language": "en-US,en;q=0.9",
+            'Cache-Control': 'no-cache',
+            'Connection': 'Upgrade',
+            'Host':  '213-245-254-51-ip.gota.io:1501',
+            'Origin': 'https://gota.io',
+            'Pragma': 'no-cache',
+            'Sec-WebSocket-Extensions': 'permessage-deflate; client_max_window_bits',
+            'Sec-WebSocket-Version': '13',
+            'User-Agent': userAgentList[Math.floor(Math.random() * userAgentList.length)],
       },
     };
     this.ws = new WebSocket(this.server, options);
