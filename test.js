@@ -13,9 +13,6 @@ async function makeRequest(url) {
 
     const page = await browser.newPage();
 
-    // Ensure JavaScript is enabled
-    await page.setJavaScriptEnabled(true);
-
     // Set the user agent to mimic a real browser
     await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36');
 
@@ -27,19 +24,22 @@ async function makeRequest(url) {
     // Fetch the page content
     const content = await page.content();
 
-    // Define a pattern or keyword indicating Cloudflare's challenge page
-    const cloudflareChallengePattern = /Checking your browser|Please enable JavaScript|Access denied/i;
+    // Define patterns indicating Cloudflare's challenge page
+    const cloudflareChallengePatterns = [
+      /Checking your browser/i,
+      /Please enable JavaScript/i,
+      /Access denied/i,
+      /Your connection is not private/i,
+      /Security check/i
+    ];
 
-    if (cloudflareChallengePattern.test(content)) {
+    // Check if any of the Cloudflare challenge patterns are present
+    const isCloudflareChallenge = cloudflareChallengePatterns.some(pattern => pattern.test(content));
+
+    if (isCloudflareChallenge) {
       console.log('Cloudflare challenge detected.');
     } else {
-      // Check for specific text
-      const targetText = 'Eat other players to earn XP and level up!';
-      if (content.includes(targetText)) {
-        console.log(`Success! Found the text: "${targetText}"`);
-      } else {
-        console.log('The specific text was not found on the page.');
-      }
+      console.log(`Successfully accessed ${url}`);
     }
 
     await browser.close();
