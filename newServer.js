@@ -1,9 +1,8 @@
 const WebSocket = require("ws");
 const { HttpsProxyAgent } = require("https-proxy-agent");
-const { SocksProxyAgent } = require("socks-proxy-agent");
 const { loadProxies } = require("./Helpers/functions");
 const https = require("https");
-const http = require('http');
+const http = require("http");
 const fs = require("fs");
 
 const server = http.createServer();
@@ -13,15 +12,6 @@ let botsAmount = 200;
 let int = null;
 let proxies = loadProxies();
 let botsRunning = false;
-//load cert
-
-//Bright Data Access
-const brd_user = 'hl_5b56f98d';
-const brd_zone = 'residential_proxy1';
-const brd_passwd = 'b6op8bft04ld';
-const brd_superpoxy = 'brd.superproxy.io:22225';
-const brd_connectStr = 'brd-customer-' + brd_user + '-zone-' + brd_zone + ':' + brd_passwd + '@' + brd_superpoxy;
-
 
 // Handle connection event
 wss.on("connection", (ws) => {
@@ -172,7 +162,7 @@ class Bot {
     this.inConnect = true;
     this.proxy = proxies[Math.floor(Math.random() * proxies.length)];
 
- // Split the proxy string into components
+    // Split the proxy string into components
     const proxyParts = this.proxy.split(":");
     const host = proxyParts[0];
     const port = proxyParts[1];
@@ -352,5 +342,3 @@ class Bot {
     }
   }
 }
-
-
