@@ -13,8 +13,6 @@ let int = null;
 let proxies = loadProxies();
 let botsRunning = false;
 
-let gota_server = null;
-
 // Handle connection event
 wss.on("connection", (ws) => {
   console.log("Client connected");
@@ -26,10 +24,6 @@ wss.on("connection", (ws) => {
     let offset = 0;
 
     switch (buf.getUint8(offset++)) {
-         case 0:
-                gota_server = reader.readString();
-        console.log(gota_server);
-                break;
       case 1:
         console.log("Received message: {1}");
         for (let i in bots) {
@@ -123,6 +117,7 @@ const stopBotsConnecting = () => {
   if (!botsRunning) return;
   clearInterval(int);
   botsRunning = false;
+
   for (let i in bots) {
     if (bots[i].inConnect && !bots[i].closed) {
       bots[i].ws.close();
@@ -152,6 +147,7 @@ const moveBots = (x, y) => {
 
 class Bot {
   constructor() {
+    this.server = "wss://165-79-217-144-ip.gota.io:1501/";
     this.proxy = null;
     this.proxyAgent = null;
     this.ws = null;
@@ -174,46 +170,37 @@ class Bot {
     const password = proxyParts[3];
 
     const proxyUrl = `http://${username}:${password}@${host}:${port}`;
+    console.log(proxyUrl);
     this.proxyAgent = new HttpsProxyAgent(proxyUrl);
     const userAgentList = [
-     "Mozilla/5.0 (Windows NT 6.0;; en-US) AppleWebKit/603.47 (KHTML, like Gecko) Chrome/47.0.1161.304 Safari/537.8 Edge/17.69374",
-
-"Mozilla/5.0 (Linux; U; Linux x86_64) AppleWebKit/600.48 (KHTML, like Gecko) Chrome/47.0.2309.269 Safari/602",
-
-"Mozilla/5.0 (Linux; U; Android 4.4; Nexus 5 Build/KOT49H) AppleWebKit/535.16 (KHTML, like Gecko) Chrome/52.0.1846.380 Mobile Safari/536.5",
-
-"Mozilla/5.0 (Macintosh; Intel Mac OS X 8_9_6; en-US) Gecko/20130401 Firefox/72.1",
-
-"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_8; en-US) AppleWebKit/533.10 (KHTML, like Gecko) Chrome/48.0.3137.249 Safari/535",
-
-"Mozilla/5.0 (Linux; U; Linux x86_64) Gecko/20100101 Firefox/53.7",
-
-"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_4; en-US) AppleWebKit/603.50 (KHTML, like Gecko) Chrome/55.0.1033.386 Safari/603",
-
-"Mozilla/5.0 (compatible; MSIE 9.0; Windows; U; Windows NT 6.1; WOW64 Trident/5.0)",
-
-"Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_10_6; en-US) Gecko/20100101 Firefox/48.3",
-
-"Mozilla/5.0 (compatible; MSIE 10.0; Windows; Windows NT 6.1; WOW64; en-US Trident/6.0)",
+      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.61 Safari/537.36",
+      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
+      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36",
+      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.128 Safari/537.36",
+      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36",
+      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36",
+      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.198 Safari/537.36",
+      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.121 Safari/537.36",
+      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.135 Safari/537.36",
+      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36",
+      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.138 Safari/537.36",
+      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.163 Safari/537.36",
+      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.130 Safari/537.36",
+      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36",
+      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36",
     ];
 
     const options = {
       agent: this.proxyAgent,
       headers: {
-
-         'Accept-Encoding': 'gzip, deflate, br, zstd',
-            "Accept-Language": "en-US,en;q=0.9",
-            'Cache-Control': 'no-cache',
-            'Connection': 'Upgrade',
-            'Origin': 'https://gota.io',
-            'Pragma': 'no-cache',
-            'Sec-WebSocket-Extensions': 'permessage-deflate; client_max_window_bits',
-            'Sec-WebSocket-Version': '13',
-            'User-Agent': userAgentList[Math.floor(Math.random() * userAgentList.length)],
-            rejectUnauthorized: false
+        "User-Agent":
+          userAgentList[Math.floor(Math.random() * userAgentList.length)],
+        Origin: "https://gota.io/web",
+        "Sec-WebSocket-Extensions":
+          "permessage-deflate; client_max_window_bits",
       },
     };
-    this.ws = new WebSocket(gota_server, options);
+    this.ws = new WebSocket(this.server, options);
     this.ws.onopen = this.open.bind(this);
     this.ws.onclose = (event) => this.close(event.code, event.reason); // Properly handle close event
     this.ws.onerror = this.error.bind(this);
