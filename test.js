@@ -1,28 +1,14 @@
-const puppeteer = require('puppeteer');
+const axios = require('axios');
+const cheerio = require('cheerio');
 
 // Define the async function
 async function makeRequest(url) {
   try {
-    const browser = await puppeteer.launch({
-      headless: true, // Run in headless mode
-      args: [
-        '--no-sandbox', // Disable sandboxing (useful for some environments)
-        '--disable-setuid-sandbox' // Required in some cases
-      ]
-    });
+    // Perform a GET request
+    const response = await axios.get(url);
 
-    const page = await browser.newPage();
-
-    // Set the user agent to mimic a real browser
-    await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36');
-
-    // Navigate to the target URL
-    await page.goto(url, {
-      waitUntil: 'networkidle2',
-    });
-
-    // Fetch the page content
-    const content = await page.content();
+    // Load the response data into cheerio
+    const $ = cheerio.load(response.data);
 
     // Define patterns indicating Cloudflare's challenge page
     const cloudflareChallengePatterns = [
@@ -34,6 +20,7 @@ async function makeRequest(url) {
     ];
 
     // Check if any of the Cloudflare challenge patterns are present
+    const content = response.data;
     const isCloudflareChallenge = cloudflareChallengePatterns.some(pattern => pattern.test(content));
 
     if (isCloudflareChallenge) {
@@ -41,8 +28,6 @@ async function makeRequest(url) {
     } else {
       console.log(`Successfully accessed ${url}`);
     }
-
-    await browser.close();
   } catch (error) {
     console.error('Error during the request process:', error);
   }
