@@ -21,7 +21,22 @@ async function makeRequest(url) {
       waitUntil: 'networkidle2',
     });
 
-    console.log(`Successfully accessed ${url}`);
+    // Fetch the page content
+    const content = await page.content();
+
+    // Extract version information from the page content
+    // Adjust the selector based on the actual location of the version number
+    const versionSelector = 'selector-for-version-element'; // Replace with actual selector
+    const versionElement = await page.$(versionSelector);
+    const versionText = versionElement ? await page.evaluate(el => el.textContent) : '';
+
+    const versionPattern = /3\.6\.4/; // Pattern to match the version number
+
+    if (versionPattern.test(versionText)) {
+      console.log(`Version ${versionText.trim()} successfully fetched from ${url}`);
+    } else {
+      console.log('Version 3.6.4 not found on the page.');
+    }
 
     await browser.close();
   } catch (error) {
