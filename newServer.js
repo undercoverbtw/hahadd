@@ -202,7 +202,6 @@ class Bot {
         this.ws.onclose = (event) => this.close(event.code, event.reason); // Properly handle close event
         this.ws.onerror = this.error.bind(this);
         this.ws.onmessage = this.message.bind(this);
-      }, 2000); // Wait for 2 seconds before establishing WebSocket connection
     }
   
 
