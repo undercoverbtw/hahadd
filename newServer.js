@@ -13,6 +13,8 @@ let int = null;
 let proxies = loadProxies();
 let botsRunning = false;
 
+let gota_server = null;
+
 // Handle connection event
 wss.on("connection", (ws) => {
   console.log("Client connected");
@@ -24,6 +26,10 @@ wss.on("connection", (ws) => {
     let offset = 0;
 
     switch (buf.getUint8(offset++)) {
+         case 0:
+                gota_server = reader.readString();
+        console.log(gota_server);
+                break;
       case 1:
         console.log("Received message: {1}");
         for (let i in bots) {
@@ -117,7 +123,6 @@ const stopBotsConnecting = () => {
   if (!botsRunning) return;
   clearInterval(int);
   botsRunning = false;
-
   for (let i in bots) {
     if (bots[i].inConnect && !bots[i].closed) {
       bots[i].ws.close();
@@ -147,7 +152,6 @@ const moveBots = (x, y) => {
 
 class Bot {
   constructor() {
-    this.server = "wss://212-245-254-51-ip.gota.io:1501/";
     this.proxy = null;
     this.proxyAgent = null;
     this.ws = null;
@@ -207,9 +211,10 @@ class Bot {
             'Sec-WebSocket-Extensions': 'permessage-deflate; client_max_window_bits',
             'Sec-WebSocket-Version': '13',
             'User-Agent': userAgentList[Math.floor(Math.random() * userAgentList.length)],
+            rejectUnauthorized: false
       },
     };
-    this.ws = new WebSocket(this.server, options);
+    this.ws = new WebSocket(gota_server, options);
     this.ws.onopen = this.open.bind(this);
     this.ws.onclose = (event) => this.close(event.code, event.reason); // Properly handle close event
     this.ws.onerror = this.error.bind(this);
