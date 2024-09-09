@@ -1,4 +1,5 @@
 const fs = require("fs");
+const puppeteer = require("puppeteer");
 
 function loadAuthorizedTokens() {
   try {
