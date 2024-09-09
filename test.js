@@ -14,7 +14,7 @@ async function makeRequest(url) {
     const page = await browser.newPage();
 
     // Disable JavaScript
-    await page.setJavaScriptEnabled(false);
+    await page.setJavaScriptEnabled(true);
 
     // Set the user agent to mimic a real browser
     await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36');
