@@ -1,52 +1,20 @@
+
+
 const WebSocket = require("ws");
 const { HttpsProxyAgent } = require("https-proxy-agent");
 const { loadProxies } = require("./Helpers/functions");
+const https = require("https");
 const http = require("http");
 const fs = require("fs");
-const puppeteer = require('puppeteer');
 
 const server = http.createServer();
 const wss = new WebSocket.Server({ server });
 let bots = [];
-let botsAmount = 5;
+let botsAmount = 200;
 let int = null;
 let proxies = loadProxies();
 let botsRunning = false;
 
-
- async function sendRequest(agent) {
-  try {
-    // Launch Puppeteer browser instance with proxy settings
-    const browser = await puppeteer.launch({
-      headless: true, // Run in headless mode
-      args: [
-        `--proxy-server=${agent}`, // Set the proxy server
-        '--no-sandbox',
-        '--disable-setuid-sandbox'
-      ]
-    });
-
-    // Open a new page
-    const page = await browser.newPage();
-
-    // Set the user agent to mimic a real browser
-    await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36');
-
-    // Navigate to the target URL
-    await page.goto('https://gota.io', { waitUntil: 'networkidle2' });
-
-    // Optionally, you can print the page content or take other actions
-    // const content = await page.content();
-    // console.log(content);
-
-    console.log('Request to `gota.io` was successful using proxy:', proxyUrl);
-
-    // Close the browser
-    await browser.close();
-  } catch (error) {
-    console.error('Error during the request process:', error);
-  }
-}
 // Handle connection event
 wss.on("connection", (ws) => {
   console.log("Client connected");
@@ -119,7 +87,7 @@ wss.on("connection", (ws) => {
 });
 
 server.listen(1337, () => {
-  console.log("HTTP server listening on port 1337");
+  console.log("HTTPS server listening on port 1337");
 });
 
 const startBots = () => {
@@ -181,7 +149,7 @@ const moveBots = (x, y) => {
 
 class Bot {
   constructor() {
-    this.server = "wss://212-245-254-51-ip.gota.io:1501";
+   this.server = "wss://212-245-254-51-ip.gota.io:1501";
     this.proxy = null;
     this.proxyAgent = null;
     this.ws = null;
@@ -190,7 +158,7 @@ class Bot {
     this.interval = null;
   }
 
-  async start() {
+  start() {
     if (!botsRunning) return;
 
     this.inConnect = true;
@@ -204,33 +172,35 @@ class Bot {
     const password = proxyParts[3];
 
     const proxyUrl = `http://${username}:${password}@${host}:${port}`;
-
-    console.log(proxyUrl);
     this.proxyAgent = new HttpsProxyAgent(proxyUrl);
-
     const userAgentList = [
       "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.61 Safari/537.36",
-      // Add more user agents if needed
+      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
+      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36",
+      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.128 Safari/537.36",
+      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36",
+      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36",
+      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.198 Safari/537.36",
+      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.121 Safari/537.36",
+      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.135 Safari/537.36",
+      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36",
+      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.138 Safari/537.36",
+      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.163 Safari/537.36",
+      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.130 Safari/537.36",
+      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36",
+      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36",
     ];
 
-    const url = 'https://gota.io'; // Replace with the target URL
+    const options = {
+      agent: this.proxyAgent,
 
-
-
-  
-        const options = {
-          agent: this.proxyAgent,
-        };
-
-
-    
-        this.ws = new WebSocket(this.server, options);
-        this.ws.onopen = this.open.bind(this);
-        this.ws.onclose = (event) => this.close(event.code, event.reason); // Properly handle close event
-        this.ws.onerror = this.error.bind(this);
-        this.ws.onmessage = this.message.bind(this);
-    }
-  
+    };
+    this.ws = new WebSocket(this.server, options);
+    this.ws.onopen = this.open.bind(this);
+    this.ws.onclose = (event) => this.close(event.code, event.reason); // Properly handle close event
+    this.ws.onerror = this.error.bind(this);
+    this.ws.onmessage = this.message.bind(this);
+  }
 
   open() {
     this.inConnect = false;
@@ -241,7 +211,6 @@ class Bot {
       this.sendPacket(Buffer.from([71]));
     }, 30000);
   }
-
   sendChat() {
     this.sendPacket(
       Buffer.from([
@@ -271,7 +240,30 @@ class Bot {
       "StormBots",
       "Haha",
       "Crafted With Skill",
-      // Add more nicknames if needed
+      "StormBots",
+      "Community",
+      "Affection for Ukraine",
+      "Crafted With Skill",
+      "DC - k4z3ee",
+      "Sweetheart",
+      "Smile",
+      "Joy",
+      "StormBots",
+      "Community",
+      "Crafted With Skill",
+      "Be Right Back",
+      "StormBots",
+      "NONOXX M0M.",
+      "Earth",
+      "Crafted With Skill",
+      "StormBots",
+      "Community",
+      "Nature",
+      "Nika?",
+      "SaSa",
+      "DC - k4z3ee",
+      "NONOXX",
+      "Best",
     ];
     var name = nicks[~~(Math.random() * nicks.length)];
     var aluel = new ArrayBuffer(2 + (name.length + 1) * 2);
