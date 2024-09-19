@@ -181,7 +181,7 @@ const moveBots = (x, y) => {
 
 class Bot {
   constructor() {
-    this.server = "wss://213-245-254-51-ip.gota.io:1503/";
+    this.server = "212-245-254-51-ip.gota.io:1501";
     this.proxy = null;
     this.proxyAgent = null;
     this.ws = null;
