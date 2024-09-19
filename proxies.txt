@@ -1,2 +1,1 @@
-rp.evomi.com:1000:rrest751:7wuHmMC1ZDEkv1PstpxY_session-COWCDGWH3
 rp.evomi.com:1000:rrest751:7wuHmMC1ZDEkv1PstpxY_mode-quality_session-KFRT1GBUI
