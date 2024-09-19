@@ -1,10 +1,1 @@
-43.229.11.86:5724:mtvtwuwn:tehpnytkt02b
-147.136.64.45:5808:mtvtwuwn:tehpnytkt02b
-104.239.2.56:6359:mtvtwuwn:tehpnytkt02b
-104.239.17.30:6096:mtvtwuwn:tehpnytkt02b
-185.39.8.72:5729:mtvtwuwn:tehpnytkt02b
-161.123.65.47:6756:mtvtwuwn:tehpnytkt02b
-84.33.210.46:5980:mtvtwuwn:tehpnytkt02b
-64.137.18.237:6431:mtvtwuwn:tehpnytkt02b
-84.247.60.251:6221:mtvtwuwn:tehpnytkt02b
-168.199.227.97:6876:mtvtwuwn:tehpnytkt02b
+171.22.248.63:5955:mtvtwuwn:tehpnytkt02b
